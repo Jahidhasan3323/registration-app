@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
             {{--                    TODO::form acction url--}}
-            <form method="post" action="<?php //echo base_url('registration/store') ?>"
+            <form id="registration_form" method="post" action=""
                   enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
@@ -27,7 +27,7 @@
                             <?php
                             if (!empty($divisions)) {
                             foreach ($divisions as $division) { ?>
-                            <option value="<?= $division->id ?>"><?= $division->name ?></option>
+                            <option value="{{$division->id }}">{{$division->name}}</option>
 
                             <?php }
                             } ?>
@@ -88,7 +88,7 @@
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label class="form-label">Exam Name</label>
-                        <select class="form-select" name="exam_name[]" required>
+                        <select class="form-select" name="educations[0][exam_id]" required>
                             <option value="">Select</option>
                             <?php
                             if (!empty($exams)) {
@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label class="form-label">Institute</label>
-                        <select class="form-select" name="institute_name[]" required>
+                        <select class="form-select" name="educations[0][institute_id]" required>
                             <option value="">Select</option>
                             <?php if (!empty($institutes)) { ?>
                             <?php foreach ($institutes as $institute) { ?>
@@ -112,7 +112,7 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label class="form-label">Board</label>
-                        <select class="form-select" name="board[]" required>
+                        <select class="form-select" name="educations[0][board_id]" required>
                             <option value="">Select</option>
                             <?php
                             if (!empty($boards)) {
@@ -125,7 +125,7 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label class="form-label">Result</label>
-                        <input type="number" step="0.01" class="form-control" name="result[]" required>
+                        <input type="number" step="0.01" class="form-control" name="educations[0][result]" required>
                     </div>
                 </div>
                 <div id="education_area"></div>
@@ -171,11 +171,11 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Name</label>
-                            <input type="text" class="form-control" name="training_name[]">
+                            <input type="text" class="form-control" name="training_opt[0][name]">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Details</label>
-                            <textarea name="training_details[]" class="form-control" rows="1"></textarea>
+                            <textarea name="training_opt[0][details]" class="form-control" rows="1"></textarea>
                         </div>
                     </div>
                     <div id="training_area"></div>
@@ -205,9 +205,11 @@
             }
         });
         // apend field for eduction
+        var edu = 0;
         $("#add_education_area").click(function () {
+            ++edu;
             $("#education_area").append(
-                '<div class="row education" > <div class="col-md-3 mb-3"> <label class="form-label">Exam Name</label> <select class="form-select" name="exam_name[]" required> <option value="">Select</option> <?php foreach ($exams as $exam) { ?> <option value="<?= $exam->id ?>"><?= $exam->name ?></option> <?php } ?> </select> </div> <div class="col-md-3 mb-3"> <label class="form-label">Institute</label> <select class="form-select" name="institute_name[]" required> <option value="">Select</option> <?php foreach ($institutes as $institute) { ?> <option value="<?= $institute->id ?>"><?= $institute->name ?></option> <?php } ?> </select> </div> <div class="col-md-3 mb-3"> <label class="form-label">Board</label> <select class="form-select" name="board[]" required> <option value="">Select</option> <?php foreach ($boards as $board) { ?> <option value="<?= $board->id ?>"><?= $board->name ?></option> <?php } ?> </select> </div> <div class="col-md-2 mb-3"> <label class="form-label">Result</label> <input type="text" class="form-control" name="result[]" required> </div><div class="col-md-1 mt-4"><a  class="btn btn-danger btn-sm delete-row pull-right">-</a></div> </div>'
+                '<div class="row education" > <div class="col-md-3 mb-3"> <label class="form-label">Exam Name</label> <select class="form-select" name="educations['+edu+'][exam_id]" required> <option value="">Select</option> <?php foreach ($exams as $exam) { ?> <option value="<?= $exam->id ?>"><?= $exam->name ?></option> <?php } ?> </select> </div> <div class="col-md-3 mb-3"> <label class="form-label">Institute</label> <select class="form-select" name="educations['+edu+'][institute_id]" required> <option value="">Select</option> <?php foreach ($institutes as $institute) { ?> <option value="<?= $institute->id ?>"><?= $institute->name ?></option> <?php } ?> </select> </div> <div class="col-md-3 mb-3"> <label class="form-label">Board</label> <select class="form-select" name="educations['+edu+'][board_id]" required> <option value="">Select</option> <?php foreach ($boards as $board) { ?> <option value="<?= $board->id ?>"><?= $board->name ?></option> <?php } ?> </select> </div> <div class="col-md-2 mb-3"> <label class="form-label">Result</label> <input type="text" class="form-control" name="educations['+edu+'][result]" required> </div><div class="col-md-1 mt-4"><a  class="btn btn-danger btn-sm delete-row pull-right">-</a></div> </div>'
             );
             // remove education field
             $("#education_area").on('click', '.delete-row', function () {
@@ -215,9 +217,11 @@
             });
         });
         // append field for training
+        var training = 0;
         $("#add_training_area").click(function () {
+            ++training;
             $("#training_area").append(
-                '<div class="row training"> <div class="col-md-5 mb-3"> <label class="form-label">Name</label> <input type="text" class="form-control" name="training_name[]" > </div> <div class="col-md-6 mb-3"> <label class="form-label">Details</label> <textarea name="training_details[]" class="form-control" rows="1" ></textarea> </div><div class="col-md-1 mt-4"><a  class="btn btn-danger btn-sm delete-row pull-right">-</a></div></div>'
+                '<div class="row training"> <div class="col-md-5 mb-3"> <label class="form-label">Name</label> <input type="text" class="form-control" name="training_opt['+training+'][name]" > </div> <div class="col-md-6 mb-3"> <label class="form-label">Details</label> <textarea name="training_opt['+training+'][details]" class="form-control" rows="1" ></textarea> </div><div class="col-md-1 mt-4"><a  class="btn btn-danger btn-sm delete-row pull-right">-</a></div></div>'
             )
         });
         // remove training field
@@ -242,7 +246,7 @@
                         op += '<option value="0" selected disabled>chose data</option>';
                         for (var i = 0; i < data.length; i++) {
                             op += '<option  value="' + data[i].id + '">' + data[i].name +
-                                  '</option>';
+                                '</option>';
                         }
                         div.find('#district').html(" ");
                         div.find('#district').append(op);
@@ -269,12 +273,33 @@
                         op += '<option value="0" selected disabled>chose data</option>';
                         for (var i = 0; i < data.length; i++) {
                             op += '<option  value="' + data[i].id + '">' + data[i].name +
-                                  '</option>';
+                                '</option>';
                         }
                         div.find('#upazila').html(" ");
                         div.find('#upazila').append(op);
                     },
                     error  : function () {
+                    }
+                });
+            });
+            //submit registration form
+            $('#registration_form').submit(function (e) {
+                e.preventDefault();
+                var form_data = $('form').serialize();
+                // form_data.append($('input[name="photo"]')[0].files);
+                var photo = $('input[name="photo"]')[0].files;
+                var cv = $('input[name="cv"]')[0].files;
+                // return
+                $.ajax({
+                    type   : 'post',
+                    url    : '{!! url('api/get-general-users') !!}',
+                    data   : {
+                        'form_data': form_data,
+                        'photo': photo,
+                        'cv': cv
+                    },
+                    success: function (data) {
+
                     }
                 });
             });

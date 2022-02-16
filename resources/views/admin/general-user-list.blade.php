@@ -8,11 +8,11 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="division" class="form-label">Name</label>
-                            <input type="text" class="form-control" placeholder="name" name="name" value="{{old('name')}}">
+                            <input type="text" class="form-control" placeholder="name" name="name" value="{{request()->get('name')}}">
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="division" class="form-label">Email</label>
-                            <input type="text" class="form-control" placeholder="email" name="email" value="{{old('email')}}">
+                            <input type="text" class="form-control" placeholder="email" name="email" value="{{request()->get('email')}}">
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="division" class="form-label">Division</label>
@@ -21,7 +21,7 @@
                                 <?php
                                 if (!empty($divisions)) {
                                 foreach ($divisions as $division) { ?>
-                                <option value="<?= $division->id ?>"><?= $division->name ?></option>
+                                <option value="{{$division->id }}">{{$division->name }}</option>
 
                                 <?php }
                                 } ?>

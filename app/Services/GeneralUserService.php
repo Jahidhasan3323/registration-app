@@ -28,7 +28,7 @@ class GeneralUserService
             $query->where('upazila_id',$request->upazila);
         }
 
-        return $query->paginate(1);
+        return $query->paginate(10);
     }
 }
 

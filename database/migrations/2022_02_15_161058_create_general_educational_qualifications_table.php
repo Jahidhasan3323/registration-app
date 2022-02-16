@@ -19,7 +19,7 @@ class CreateGeneralEducationalQualificationsTable extends Migration
             $table->foreignId('board_id')->index()->constrained('boards')->onDelete('cascade');
             $table->foreignId('institute_id')->index()->constrained('institutes')->onDelete('cascade');
             $table->foreignId('exam_id')->index()->constrained('exams')->onDelete('cascade');
-            $table->foreignId('user_id')->index()->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->index()->constrained('general_users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -23,3 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('get-district',[APIController::class, 'getDistrict'])->name('get.district');
 Route::get('get-upazila',[APIController::class, 'getUpazila'])->name('get.upazila');
 Route::get('get-general-users',[GeneralUserController::class, 'index'])->name('get.general.users');
+Route::post('get-general-users',[GeneralUserController::class, 'store'])->name('get.general.users');

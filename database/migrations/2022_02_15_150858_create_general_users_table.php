@@ -20,9 +20,9 @@ class CreateGeneralUsersTable extends Migration
             $table->text('address');
             $table->text('photo');
             $table->text('cv');
-            $table->foreignId('division_id')->index()->comment("division id")->nullable()->constrained('divisions')->onDelete('cascade');
-            $table->foreignId('district_id')->index()->comment("district id")->nullable()->constrained('districts')->onDelete('cascade');
-            $table->foreignId('upazila_id')->index()->comment("upazila id")->nullable()->constrained('upazilas')->onDelete('cascade');
+            $table->foreignId('division_id')->index()->constrained('divisions')->onDelete('cascade');
+            $table->foreignId('district_id')->index()->constrained('districts')->onDelete('cascade');
+            $table->foreignId('upazila_id')->index()->constrained('upazilas')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

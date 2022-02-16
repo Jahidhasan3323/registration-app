@@ -16,7 +16,7 @@ class CreateGeneralLanguagesTable extends Migration
         Schema::create('general_languages', function (Blueprint $table) {
             $table->id();
             $table->string('language');
-            $table->foreignId('user_id')->index()->comment("user id")->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->index()->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

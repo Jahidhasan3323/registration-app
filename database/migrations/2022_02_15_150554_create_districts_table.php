@@ -18,7 +18,7 @@ class CreateDistrictsTable extends Migration
             $table->string('name');
             $table->string('bn_name')->nullable();
             $table->string('url')->nullable();
-            $table->foreignId('division_id')->index()->comment("division id")->nullable()->constrained('divisions')->onDelete('cascade');
+            $table->foreignId('division_id')->index()->constrained('divisions')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -17,7 +17,7 @@ class CreateGeneralTrainingsTable extends Migration
             $table->id();
             $table->string('name');
             $table->text('details');
-            $table->foreignId('user_id')->index()->comment("user id")->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->index()->nullable()->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\APIController;
+use App\Http\Controllers\GeneralUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('get-district',[APIController::class, 'getDistrict'])->name('get.district');
 Route::get('get-upazila',[APIController::class, 'getUpazila'])->name('get.upazila');
+Route::get('get-general-users',[GeneralUserController::class, 'index'])->name('get.general.users');

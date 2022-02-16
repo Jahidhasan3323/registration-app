@@ -18,7 +18,7 @@ class CreateUpazilasTable extends Migration
             $table->string('name');
             $table->string('bn_name')->nullable();
             $table->string('url')->nullable();
-            $table->foreignId('district_id')->index()->comment("district id")->nullable()->constrained('districts')->onDelete('cascade');
+            $table->foreignId('district_id')->index()->constrained('districts')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

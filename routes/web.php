@@ -19,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::get('/',[GeneralUserController::class, 'create'])->name('general.user.create');
+
+
+//admin's route
+Route::get('/general-user-list',[GeneralUserController::class, 'index'])->name('general.user.list');

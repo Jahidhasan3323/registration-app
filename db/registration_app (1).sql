@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Feb 16, 2022 at 08:19 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.9
+-- Host: localhost:3306
+-- Generation Time: Feb 17, 2022 at 11:27 AM
+-- Server version: 5.7.33
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -123,7 +123,7 @@ CREATE TABLE `failed_jobs` (
   `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -150,12 +150,17 @@ CREATE TABLE `general_educational_qualifications` (
 
 INSERT INTO `general_educational_qualifications` (`id`, `result`, `board_id`, `institute_id`, `exam_id`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, '53', 1, 1, 1, 15, '2022-02-16 12:25:13', '2022-02-16 12:25:13', NULL),
-(2, '53', 1, 1, 1, 17, '2022-02-16 12:30:19', '2022-02-16 12:30:19', NULL),
+(2, '53', 1, 1, 1, 15, '2022-02-16 12:30:19', '2022-02-16 12:30:19', NULL),
 (3, '53', 1, 1, 1, 19, '2022-02-16 12:32:54', '2022-02-16 12:32:54', NULL),
 (4, '53', 1, 1, 1, 20, '2022-02-16 12:38:08', '2022-02-16 12:38:08', NULL),
 (5, '53', 1, 1, 1, 22, '2022-02-16 12:38:35', '2022-02-16 12:38:35', NULL),
 (6, '53', 1, 1, 1, 23, '2022-02-16 12:39:57', '2022-02-16 12:39:57', NULL),
-(7, '53', 1, 1, 1, 25, '2022-02-16 12:45:52', '2022-02-16 12:45:52', NULL);
+(7, '53', 1, 1, 1, 25, '2022-02-16 12:45:52', '2022-02-16 12:45:52', NULL),
+(8, '84', 1, 1, 1, 26, '2022-02-17 02:21:53', '2022-02-17 02:21:53', NULL),
+(9, '81', 1, 1, 1, 27, '2022-02-17 02:43:45', '2022-02-17 02:43:45', NULL),
+(10, '27', 1, 1, 1, 28, '2022-02-17 03:39:49', '2022-02-17 03:39:49', NULL),
+(11, '27', 1, 1, 1, 29, '2022-02-17 03:44:01', '2022-02-17 03:44:01', NULL),
+(12, '80', 1, 1, 1, 30, '2022-02-17 03:44:15', '2022-02-17 03:44:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -177,8 +182,16 @@ CREATE TABLE `general_languages` (
 --
 
 INSERT INTO `general_languages` (`id`, `language`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '0', 23, '2022-02-16 12:39:57', '2022-02-16 12:39:57', NULL),
-(2, '0', 25, '2022-02-16 12:45:52', '2022-02-16 12:45:52', NULL);
+(1, '0', 25, '2022-02-16 12:39:57', '2022-02-16 12:39:57', NULL),
+(2, '0', 25, '2022-02-16 12:45:52', '2022-02-16 12:45:52', NULL),
+(3, '1', 26, '2022-02-17 02:21:53', '2022-02-17 02:21:53', NULL),
+(4, '2', 26, '2022-02-17 02:21:53', '2022-02-17 02:21:53', NULL),
+(5, '1', 27, '2022-02-17 02:43:45', '2022-02-17 02:43:45', NULL),
+(6, '2', 28, '2022-02-17 03:39:49', '2022-02-17 03:39:49', NULL),
+(7, '2', 29, '2022-02-17 03:44:01', '2022-02-17 03:44:01', NULL),
+(8, '0', 30, '2022-02-17 03:44:15', '2022-02-17 03:44:15', NULL),
+(9, '1', 30, '2022-02-17 03:44:15', '2022-02-17 03:44:15', NULL),
+(10, '2', 30, '2022-02-17 03:44:15', '2022-02-17 03:44:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -203,7 +216,12 @@ CREATE TABLE `general_trainings` (
 INSERT INTO `general_trainings` (`id`, `name`, `details`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'jjh', 'kjkj', NULL, '2022-02-16 12:38:35', '2022-02-16 12:38:35', NULL),
 (2, 'jjh', 'kjkj', NULL, '2022-02-16 12:39:57', '2022-02-16 12:39:57', NULL),
-(3, 'jjh', 'kjkj', NULL, '2022-02-16 12:45:52', '2022-02-16 12:45:52', NULL);
+(3, 'jjh', 'kjkj', NULL, '2022-02-16 12:45:52', '2022-02-16 12:45:52', NULL),
+(4, 'Jennifer Montoya', 'Assumenda commodo si', NULL, '2022-02-17 02:21:53', '2022-02-17 02:21:53', NULL),
+(5, 'Shafira Mcfarland', 'Provident dolores m', NULL, '2022-02-17 02:43:45', '2022-02-17 02:43:45', NULL),
+(6, 'Evelyn Moore', 'Eligendi occaecat re', NULL, '2022-02-17 03:39:49', '2022-02-17 03:39:49', NULL),
+(7, 'Evelyn Moore', 'Eligendi occaecat re', NULL, '2022-02-17 03:44:01', '2022-02-17 03:44:01', NULL),
+(8, 'Indira Carver', 'Et omnis neque unde ', NULL, '2022-02-17 03:44:15', '2022-02-17 03:44:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -216,8 +234,6 @@ CREATE TABLE `general_users` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `photo` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cv` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `division_id` bigint(20) UNSIGNED NOT NULL,
   `district_id` bigint(20) UNSIGNED NOT NULL,
   `upazila_id` bigint(20) UNSIGNED NOT NULL,
@@ -230,14 +246,19 @@ CREATE TABLE `general_users` (
 -- Dumping data for table `general_users`
 --
 
-INSERT INTO `general_users` (`id`, `name`, `email`, `address`, `photo`, `cv`, `division_id`, `district_id`, `upazila_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(15, 'Haviva Wagner', 'qomy@mailinator.com', 'Aut mollit excepteur', NULL, NULL, 1, 1, 1, '2022-02-16 12:25:13', '2022-02-16 12:25:13', NULL),
-(17, 'Haviva Wagner', 'qomy22@mailinator.com', 'Aut mollit excepteur', NULL, NULL, 1, 1, 1, '2022-02-16 12:30:19', '2022-02-16 12:30:19', NULL),
-(19, 'Haviva Wagner', 'qomy222@mailinator.com', 'Aut mollit excepteur', NULL, NULL, 1, 1, 1, '2022-02-16 12:32:54', '2022-02-16 12:32:54', NULL),
-(20, 'Haviva Wagner', 'qomy2222@mailinator.com', 'Aut mollit excepteur', NULL, NULL, 1, 1, 1, '2022-02-16 12:38:08', '2022-02-16 12:38:08', NULL),
-(22, 'Haviva Wagner', 'qomy2252@mailinator.com', 'Aut mollit excepteur', NULL, NULL, 1, 1, 1, '2022-02-16 12:38:35', '2022-02-16 12:38:35', NULL),
-(23, 'Haviva Wagner', 'qomy287@mailinator.com', 'Aut mollit excepteur', NULL, NULL, 1, 1, 1, '2022-02-16 12:39:57', '2022-02-16 12:39:57', NULL),
-(25, 'Haviva Wagner', 'qomy254@mailinator.com', 'Aut mollit excepteur', NULL, NULL, 1, 1, 1, '2022-02-16 12:45:52', '2022-02-16 12:45:52', NULL);
+INSERT INTO `general_users` (`id`, `name`, `email`, `address`, `division_id`, `district_id`, `upazila_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(15, 'Haviva Wagner', 'qomy@mailinator.com', 'Aut mollit excepteur', 1, 1, 1, '2022-02-16 12:25:13', '2022-02-16 12:25:13', NULL),
+(17, 'Haviva Wagner', 'qomy22@mailinator.com', 'Aut mollit excepteur', 1, 1, 1, '2022-02-16 12:30:19', '2022-02-16 12:30:19', NULL),
+(19, 'Haviva Wagner', 'qomy222@mailinator.com', 'Aut mollit excepteur', 1, 1, 1, '2022-02-16 12:32:54', '2022-02-16 12:32:54', NULL),
+(20, 'Haviva Wagner', 'qomy2222@mailinator.com', 'Aut mollit excepteur', 1, 1, 1, '2022-02-16 12:38:08', '2022-02-16 12:38:08', NULL),
+(22, 'Haviva Wagner', 'qomy2252@mailinator.com', 'Aut mollit excepteur', 1, 1, 1, '2022-02-16 12:38:35', '2022-02-16 12:38:35', NULL),
+(23, 'Haviva Wagner', 'qomy287@mailinator.com', 'Aut mollit excepteur', 1, 1, 1, '2022-02-16 12:39:57', '2022-02-16 12:39:57', NULL),
+(25, 'Haviva Wagner', 'qomy254@mailinator.com', 'Aut mollit excepteur', 1, 1, 1, '2022-02-16 12:45:52', '2022-02-16 12:45:52', NULL),
+(26, 'Jenna Gates', 'degigapa@mailinator.com', 'Sit quidem aliquip q', 1, 1, 1, '2022-02-17 02:21:53', '2022-02-17 02:21:53', NULL),
+(27, 'Ulric Browning', 'wyzameh@mailinator.com', 'Soluta aliquip recus', 1, 1, 1, '2022-02-17 02:43:45', '2022-02-17 02:43:45', NULL),
+(28, 'Anne Kemp', 'mogobyr@mailinator.com', 'Voluptatem officia ', 1, 1, 1, '2022-02-17 03:39:49', '2022-02-17 03:39:49', NULL),
+(29, 'Anne Kemp', 'mogobyaar@mailinator.com', 'Voluptatem officia ', 1, 1, 1, '2022-02-17 03:44:01', '2022-02-17 03:44:01', NULL),
+(30, 'Shafira Lawrence', 'qybizemy@mailinator.com', 'Sit amet occaecat c', 1, 1, 1, '2022-02-17 03:44:15', '2022-02-17 03:44:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -316,7 +337,7 @@ CREATE TABLE `personal_access_tokens` (
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -362,6 +383,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'admin@gmail.com', NULL, '$2a$12$nsw5Zja1jHIhB2Y8P9jf0e3kg9ZTaHe4jD6Dbn3CNxPWDJiL4TXra', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -511,25 +539,25 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `general_educational_qualifications`
 --
 ALTER TABLE `general_educational_qualifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `general_languages`
 --
 ALTER TABLE `general_languages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `general_trainings`
 --
 ALTER TABLE `general_trainings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `general_users`
 --
 ALTER TABLE `general_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `institutes`
@@ -559,7 +587,7 @@ ALTER TABLE `upazilas`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

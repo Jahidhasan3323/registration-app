@@ -18,8 +18,6 @@ class CreateGeneralUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->text('address');
-            $table->text('photo');
-            $table->text('cv');
             $table->foreignId('division_id')->index()->constrained('divisions')->onDelete('cascade');
             $table->foreignId('district_id')->index()->constrained('districts')->onDelete('cascade');
             $table->foreignId('upazila_id')->index()->constrained('upazilas')->onDelete('cascade');

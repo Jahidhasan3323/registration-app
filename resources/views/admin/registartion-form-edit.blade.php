@@ -10,11 +10,11 @@
                   enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" name="name" id="name" required>
+                    <input type="text" class="form-control" name="name" id="name" required value="{{$user->name}}">
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
+                    <input type="email" class="form-control" id="email" name="email" required value="{{$user->email}}">
                 </div>
                 <div class="row">
                     <div class="col-md-4 mb-3">
@@ -24,7 +24,8 @@
                             <?php
                             if (!empty($divisions)) {
                             foreach ($divisions as $division) { ?>
-                            <option value="{{$division->id }}">{{$division->name}}</option>
+                            <option
+                                value="{{$division->id }}" {{$division->id == $user->division_id ? 'selected' : ''}}>{{$division->name}}</option>
 
                             <?php }
                             } ?>
@@ -34,27 +35,48 @@
                         <label for="district" class="form-label">District</label>
                         <select class="form-select" id="district" name="district" required>
                             <option value="">Select</option>
+                            <?php
+                            if (!empty($districts)) {
+                            foreach ($districts as $district) { ?>
+                            <option
+                                value="{{$district->id }}" {{$district->id == $user->division_id ? 'selected' : ''}}>{{$district->name}}</option>
 
+                            <?php }
+                            } ?>
                         </select>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label for="upazila" class="form-label">Upazila</label>
                         <select class="form-select" id="upazila" name="upazila" required>
                             <option value="">Select</option>
+                            <?php
+                            if (!empty($upazilas)) {
+                            foreach ($upazilas as $upazila) { ?>
+                            <option
+                                value="{{$upazila->id }}" {{$upazila->id == $user->division_id ? 'selected' : ''}}>{{$upazila->name}}</option>
 
+                            <?php }
+                            } ?>
                         </select>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" name="address" id="address" required>
+                    <input type="text" class="form-control" name="address" id="address" required
+                           value="{{$user->address}}">
                 </div>
+                @php
+                    $languages = [];
+                        foreach ($user->languages as $language){
+                                array_push($languages, $language->id);
+                            }
+                @endphp
                 <div class="row">
                     <label class="form-check-label mb-3 border-bottom">Language Proficiency </label>
                     <div class="col-md-4 mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="0" id="english"
-                                   name="language[]">
+                                   name="language[]" {{in_array(0, $languages) ? 'checked' : ''}}>
                             <label class="form-check-label" for="english">
                                 Enlish
                             </label>
@@ -63,7 +85,7 @@
                     <div class="col-md-4 mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="bangla"
-                                   name="language[]">
+                                   name="language[]" {{in_array(1, $languages) ? 'checked' : ''}}>
                             <label class="form-check-label" for="bangla">
                                 Bangla
                             </label>
@@ -72,7 +94,7 @@
                     <div class="col-md-4 mb-3">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="2" id="french"
-                                   name="language[]">
+                                   name="language[]" {{in_array(2, $languages) ? 'checked' : ''}}>
                             <label class="form-check-label" for="french">
                                 French
                             </label>
@@ -82,49 +104,59 @@
                 <div class="row">
                     <label class="form-check-label border-bottom mb-3">Education Qualification </label>
                 </div>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label class="form-label">Exam Name</label>
-                        <select class="form-select" name="educations[0][exam_id]" required>
-                            <option value="">Select</option>
-                            <?php
-                            if (!empty($exams)) {
-                            foreach ($exams as $exam) { ?>
-                            <option value="<?= $exam->id ?>"><?= $exam->name ?></option>
+                @php $edu=0 @endphp
+                @if(!empty($user->educationalQualifications))
+                    @foreach ($user->educationalQualifications as $educationalQualification)
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Exam Name</label>
+                                <select class="form-select" name="educations[{{$edu}}][exam_id]" required>
+                                    <option value="">Select</option>
+                                    <?php
+                                    if (!empty($exams)) {
+                                    foreach ($exams as $exam) { ?>
+                                    <option
+                                        value="<?= $exam->id ?>" {{$exam->id == $educationalQualification->exam_id ? 'selected' : ''}}><?= $exam->name ?></option>
 
-                            <?php }
-                            } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label class="form-label">Institute</label>
-                        <select class="form-select" name="educations[0][institute_id]" required>
-                            <option value="">Select</option>
-                            <?php if (!empty($institutes)) { ?>
-                            <?php foreach ($institutes as $institute) { ?>
-                            <option value="<?= $institute->id ?>"><?= $institute->name ?></option>
+                                    <?php }
+                                    } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Institute</label>
+                                <select class="form-select" name="educations[{{$edu}}][institute_id]" required>
+                                    <option value="">Select</option>
+                                    <?php if (!empty($institutes)) { ?>
+                                    <?php foreach ($institutes as $institute) { ?>
+                                    <option
+                                        value="<?= $institute->id ?>" {{$institute->id == $educationalQualification->institute_id ? 'selected' : ''}}><?= $institute->name ?></option>
 
-                            <?php } } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label class="form-label">Board</label>
-                        <select class="form-select" name="educations[0][board_id]" required>
-                            <option value="">Select</option>
-                            <?php
-                            if (!empty($boards)) {
-                            foreach ($boards as $board) { ?>
-                            <option value="<?= $board->id ?>"><?= $board->name ?></option>
+                                    <?php } } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Board</label>
+                                <select class="form-select" name="educations[{{$edu}}][board_id]" required>
+                                    <option value="">Select</option>
+                                    <?php
+                                    if (!empty($boards)) {
+                                    foreach ($boards as $board) { ?>
+                                    <option
+                                        value="<?= $board->id ?>" {{$board->id == $educationalQualification->board_id ? 'selected' : ''}}><?= $board->name ?></option>
 
-                            <?php }
-                            } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <label class="form-label">Result</label>
-                        <input type="number" step="0.01" class="form-control" name="educations[0][result]" required>
-                    </div>
-                </div>
+                                    <?php }
+                                    } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Result</label>
+                                <input type="number" step="0.01" class="form-control" name="educations[0][result]"
+                                       required value="{{$educationalQualification->result}}">
+                            </div>
+                        </div>
+                        @php $edu++ @endphp
+                    @endforeach
+                @endif
                 <div id="education_area"></div>
                 <div class="row mb-3 ">
                     <div class="col-md-12 mb-3 ">
@@ -135,36 +167,56 @@
                 </div>
                 <div class="row">
                     <label class="form-check-label border-bottom mb-3">Training </label>
+
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div class="form-check">
                                 <input class="form-check-input " type="radio" name="training"
-                                       id="training_no" value="0" checked>
+                                       id="training_no" value="0" {{empty($user->trainings) ? '' : 'checked'}}>
                                 <label class="form-check-label" for="training_no">
                                     No
                                 </label>
                             </div>
                             <div class="form-check mb-3">
                                 <input class="form-check-input " type="radio" name="training" value="1"
-                                       id="training_yes">
+                                       id="training_yes" {{empty($user->trainings) ? 'checked' : ''}}>
                                 <label class="form-check-label" for="training_yes">
                                     Yes
                                 </label>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="training_area" style="display: none;">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-control" name="training_opt[0][name]">
+
+                    @php $tai=0 @endphp
+                        @if(empty($user->trainings))
+                        @foreach ($user->trainings as $training)
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" class="form-control" name="training_opt[{{$tai}}][name]" value="{{$training->name}}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Details</label>
+                                    <textarea name="training_opt[{{$tai}}][details]" class="form-control" rows="1">{{$training->details}}</textarea>
+                                </div>
+                            </div>
+                            @php $tai++ @endphp
+                        @endforeach
+                    @else
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Name </label>
+                                <input type="text" class="form-control" name="training_opt[0][name]" >
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Details</label>
+                                <textarea name="training_opt[0][details]" class="form-control" rows="1"></textarea>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Details</label>
-                            <textarea name="training_opt[0][details]" class="form-control" rows="1"></textarea>
-                        </div>
-                    </div>
+                    @endif
                     <div id="training_area"></div>
                     <div class="row mb-3 ">
                         <div class="col-md-12 mb-3 ">
@@ -180,6 +232,7 @@
             </form>
         </div>
     </div>
+
 @endsection
 @section('script')
 
@@ -193,7 +246,7 @@
             }
         });
         // apend field for eduction
-        var edu = 0;
+        var edu = {{$edu !=0 ? $edu-1 : 0}};
         $("#add_education_area").click(function () {
             ++edu;
             $("#education_area").append(
@@ -213,7 +266,7 @@
             });
         });
         // append field for training
-        var training = 0;
+        var training = {{$tai !=0 ? $tai-1 : 0}};
         $("#add_training_area").click(function () {
             ++training;
             $("#training_area").append(
@@ -299,8 +352,8 @@
                 var form_data = $('form').serialize();
                 // return
                 $.ajax({
-                    type   : 'post',
-                    url    : '{!! url('api/get-general-users') !!}',
+                    type   : 'put',
+                    url    : '{!! url('api/general-user-edit/'.$user->id) !!}',
                     data   : {
                         'form_data': form_data
                     },
@@ -318,10 +371,9 @@
                             })
                         } else if (data.status == 200) {
                             Toast.fire({
-                                icon : 'success',
+                                icon : 'error',
                                 title: data.msg
                             })
-                            window.location.reload();
                         }
                     },
                     catch  : function (errors) {

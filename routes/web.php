@@ -18,8 +18,14 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Route::get('/',[GeneralUserController::class, 'create'])->name('general.user.create');
+Route::get('/', [GeneralUserController::class, 'create'])->name('general.user.create');
 
 
 //admin's route
-Route::get('/general-user-list',[GeneralUserController::class, 'index'])->name('general.user.list');
+Route::middleware('auth')->group(function () {
+    Route::get('/general-user-list', [GeneralUserController::class, 'index'])->name('general.user.list');
+    Route::get('/general-user-edit/{id}', [GeneralUserController::class, 'edit'])->name('general.user.edit');
+});
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

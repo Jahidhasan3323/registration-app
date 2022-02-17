@@ -70,7 +70,7 @@
                                 <td>{{ $user->district->name }}</td>
                                 <td>{{ $user->upazila->name }}</td>
                                 <td>{{ $user->created_at }}</td>
-                                <td><a href="#" class="btn btn-success">Edit</a></td>
+                                <td><a href="{{route('general.user.edit',$user->id)}}" class="btn btn-success">Edit</a></td>
                             </tr>
                             <?php }
                             } ?>

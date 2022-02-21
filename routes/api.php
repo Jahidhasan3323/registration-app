@@ -25,4 +25,4 @@ Route::get('get-upazila',[APIController::class, 'getUpazila'])->name('get.upazil
 Route::get('get-general-users',[GeneralUserController::class, 'index'])->name('get.general.users');
 Route::post('get-general-users',[GeneralUserController::class, 'store'])->name('get.general.users');
 
-Route::put('/general-user-edit/{id}', [GeneralUserController::class, 'update'])->name('general.user.edit');
+Route::post('/general-user-edit/{id}', [GeneralUserController::class, 'update'])->name('general.user.edit');

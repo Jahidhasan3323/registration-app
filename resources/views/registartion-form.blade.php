@@ -6,6 +6,23 @@
             Registration Form
         </div>
         <div class="card-body">
+
+            {{--<form id="registration_form" method="post" action="" enctype="multipart/form-data">
+                <div class="row mb-3">
+                    <input type="text" class="form-control" name="name" id="name" required>
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Photo</label>
+                        <input type="file" id="photo" class="form-control" name="photo" >
+                    </div>
+                    --}}{{--<div class="col-md-6">
+                        <label for="name" class="form-label">CV</label>
+                        <input type="file" id="cv" class="form-control" name="cv" required>
+                    </div>--}}{{--
+                </div>
+                <div class="col-md-12 mb-3 ">
+                    <button type="submit" id="formSubmit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>--}}
             <form id="registration_form" method="post" action=""
                   enctype="multipart/form-data">
                 <div class="mb-3">
@@ -48,6 +65,16 @@
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
                     <input type="text" class="form-control" name="address" id="address" required>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Photo</label>
+                        <input type="file" id="photo" class="form-control" name="photo" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">CV</label>
+                        <input type="file" id="cv" class="form-control" name="cv" required>
+                    </div>
                 </div>
                 <div class="row">
                     <label class="form-check-label mb-3 border-bottom">Language Proficiency </label>
@@ -182,7 +209,7 @@
     </div>
 @endsection
 @section('script')
-
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>
         $('input:radio[name="training"]').change(function () {
             console.log($(this).val());
@@ -285,6 +312,7 @@
             //submit registration form
             $('#registration_form').submit(function (e) {
                 e.preventDefault();
+
                 const Toast   = Swal.mixin({
                     toast            : true,
                     position         : 'top-end',
@@ -296,14 +324,19 @@
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
                     }
                 })
-                var form_data = $('form').serialize();
+                var photo = $('#photo').prop('files')[0];
+                var cv = $('#cv').prop('files')[0];
+                var form_data = new FormData(this);
+                form_data.append('photo',photo)
+                form_data.append('cv',cv)
+
                 // return
                 $.ajax({
                     type   : 'post',
                     url    : '{!! url('api/get-general-users') !!}',
-                    data   : {
-                        'form_data': form_data
-                    },
+                    data   : form_data,
+                    contentType: false,
+                    processData: false,
                     success: function (data) {
                         let message = '';
                         if (data.status == 400) {

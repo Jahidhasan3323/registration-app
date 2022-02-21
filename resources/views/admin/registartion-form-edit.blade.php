@@ -65,10 +65,20 @@
                     <input type="text" class="form-control" name="address" id="address" required
                            value="{{$user->address}}">
                 </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Photo</label>
+                        <input type="file" id="photo" class="form-control" name="photo">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">CV</label>
+                        <input type="file" id="cv" class="form-control" name="cv">
+                    </div>
+                </div>
                 @php
                     $languages = [];
                         foreach ($user->languages as $language){
-                                array_push($languages, $language->id);
+                                array_push($languages, $language->language);
                             }
                 @endphp
                 <div class="row">
@@ -107,6 +117,7 @@
                 @php $edu=0 @endphp
                 @if(!empty($user->educationalQualifications))
                     @foreach ($user->educationalQualifications as $educationalQualification)
+                        <input type="hidden" name="educations[{{$edu}}][id]" value="{{$educationalQualification->id}}">
                         <div class="row">
                             <div class="col-md-3 mb-3">
                                 <label class="form-label">Exam Name</label>
@@ -150,7 +161,7 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label class="form-label">Result</label>
-                                <input type="number" step="0.01" class="form-control" name="educations[0][result]"
+                                <input type="number" step="0.01" class="form-control" name="educations[{{$edu}}][result]"
                                        required value="{{$educationalQualification->result}}">
                             </div>
                         </div>
@@ -166,20 +177,19 @@
                     </div>
                 </div>
                 <div class="row">
-                    <label class="form-check-label border-bottom mb-3">Training </label>
-
+                    <label class="form-check-label border-bottom mb-3">Training {{$user->trainings ? 'checked' : ''}}</label>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <div class="form-check">
                                 <input class="form-check-input " type="radio" name="training"
-                                       id="training_no" value="0" {{empty($user->trainings) ? '' : 'checked'}}>
+                                       id="training_no" value="0" {{count($user->trainings) <=0 ? 'checked' : ''}}>
                                 <label class="form-check-label" for="training_no">
                                     No
                                 </label>
                             </div>
                             <div class="form-check mb-3">
                                 <input class="form-check-input " type="radio" name="training" value="1"
-                                       id="training_yes" {{empty($user->trainings) ? 'checked' : ''}}>
+                                       id="training_yes" {{count($user->trainings) > 0 ? 'checked' : ''}}>
                                 <label class="form-check-label" for="training_yes">
                                     Yes
                                 </label>
@@ -191,8 +201,9 @@
                 <div class="training_area" style="display: none;">
 
                     @php $tai=0 @endphp
-                        @if(empty($user->trainings))
+                        @if($user->trainings)
                         @foreach ($user->trainings as $training)
+                            <input type="hidden" name="training_opt[{{$tai}}][id]" value="{{$training->id}}">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Name</label>
@@ -237,8 +248,13 @@
 @section('script')
 
     <script>
+        let abc = {{count($user->trainings)}}
+        if (abc > 0) {
+            $(".training_area").show();
+        } else {
+            $(".training_area").hide();
+        }
         $('input:radio[name="training"]').change(function () {
-            console.log($(this).val());
             if ($(this).val() == '1') {
                 $(".training_area").show();
             } else {
@@ -349,14 +365,22 @@
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
                     }
                 })
-                var form_data = $('form').serialize();
+                var photo = $('#photo').prop('files')[0];
+                var cv = $('#cv').prop('files')[0];
+                var form_data = new FormData(this);
+                if(photo){
+                    form_data.append('photo',photo)
+                }
+                if(cv){
+                    form_data.append('cv',cv)
+                }
                 // return
                 $.ajax({
-                    type   : 'put',
+                    type   : 'post',
                     url    : '{!! url('api/general-user-edit/'.$user->id) !!}',
-                    data   : {
-                        'form_data': form_data
-                    },
+                    data   : form_data,
+                    contentType: false,
+                    processData: false,
                     success: function (data) {
                         let message = '';
                         if (data.status == 400) {
@@ -371,9 +395,10 @@
                             })
                         } else if (data.status == 200) {
                             Toast.fire({
-                                icon : 'error',
+                                icon : 'success',
                                 title: data.msg
                             })
+                            window.location.reload();
                         }
                     },
                     catch  : function (errors) {

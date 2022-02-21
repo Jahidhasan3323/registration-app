@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,6 +12,9 @@ class GeneralUser extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded=[];
+    protected $casts = [
+        'created_at' => 'date:Y-m-d',
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

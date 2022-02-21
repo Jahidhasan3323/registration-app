@@ -16,6 +16,7 @@ use App\Models\Upazila;
 use Illuminate\Http\Request;
 use App\Services\GeneralUserService;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class GeneralUserController extends Controller
@@ -27,7 +28,7 @@ class GeneralUserController extends Controller
      */
     public function index(Request $request)
     {
-        $users     = (new GeneralUserService)->getGeneralUser($request);
+        $users = (new GeneralUserService)->getGeneralUser($request);
         $divisions = Division::get();
         return view('admin.general-user-list', compact('users', 'divisions'));
     }
@@ -39,10 +40,10 @@ class GeneralUserController extends Controller
      */
     public function create(Request $request)
     {
-        $divisions  = Division::get();
-        $exams      = Exam::get();
+        $divisions = Division::get();
+        $exams = Exam::get();
         $institutes = Institute::get();
-        $boards     = Board::get();
+        $boards = Board::get();
         return view('registartion-form', compact('divisions', 'exams', 'institutes', 'boards'));
     }
 
@@ -53,18 +54,29 @@ class GeneralUserController extends Controller
      */
     public function store(Request $request)
     {
-        parse_str($request->form_data, $request_data);
-
-        $validation_rules =  (new GeneralUserService)->validation($request_data);
-        $validator        = Validator::make($request_data, $validation_rules);
+        $request_data = $request->all();
+        $validation_rules = (new GeneralUserService)->validation($request_data);
+        $validator = Validator::make($request_data, $validation_rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors(), 'status' => Response::HTTP_BAD_REQUEST]);
         }
-        $user     = (new GeneralUserService)->storeGeneralUser($request_data);
+        if ($request->file('photo')) {
+            $image = $_FILES["photo"]["name"];
+            $file_tmp = $_FILES["photo"]["tmp_name"];
+            $ext = pathinfo($image, PATHINFO_EXTENSION);
+            $request_data['photo'] = $request->file('photo')->storeAs('image/', 'image' . rand(10, 100000) . '.' . $ext);
+        }
+        if ($request->file('cv')) {
+            $image = $_FILES["cv"]["name"];
+            $file_tmp = $_FILES["cv"]["tmp_name"];
+            $ext = pathinfo($image, PATHINFO_EXTENSION);
+            $request_data['cv'] = $request->file('cv')->storeAs('cv/', 'cv' . rand(10, 100000) . '.' . $ext);
+        }
+
+        $user = (new GeneralUserService)->storeGeneralUser($request_data);
         return response()->json(['data' => $user, 'status' => Response::HTTP_OK, 'msg' => 'Data stored successfully']);
 
     }
-
 
 
     /**
@@ -86,13 +98,13 @@ class GeneralUserController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $divisions  = Division::get();
-        $districts  = District::get();
-        $upazilas   = Upazila::get();
-        $exams      = Exam::get();
+        $divisions = Division::get();
+        $districts = District::get();
+        $upazilas = Upazila::get();
+        $exams = Exam::get();
         $institutes = Institute::get();
-        $boards     = Board::get();
-        $user      = (new GeneralUserService)->getGeneralUserShow($request, $id);
+        $boards = Board::get();
+        $user = (new GeneralUserService)->getGeneralUserShow($request, $id);
         return view('admin.registartion-form-edit', compact('user', 'divisions', 'districts', 'upazilas', 'exams', 'institutes', 'boards'));
     }
 
@@ -103,18 +115,28 @@ class GeneralUserController extends Controller
      * @param \App\Models\GeneralUser $generalUser
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, GeneralUser $generalUser)
+    public function update(Request $request, $id)
     {
+        $request_data = $request->all();
 
-        return response()->json(['status' => Response::HTTP_OK, 'msg' => 'this module is not complete. I am working on it ']);
-        parse_str($request->form_data, $request_data);
-
-        $validation_rules =  (new GeneralUserService)->validation($request_data);
-        $validator        = Validator::make($request_data, $validation_rules);
+        $validation_rules = (new GeneralUserService)->validation($request_data, $id, 'update');
+        $validator = Validator::make($request_data, $validation_rules);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors(), 'status' => Response::HTTP_BAD_REQUEST]);
         }
-        $user     = (new GeneralUserService)->updateGeneralUser($request_data);
+        if ($request->file('photo')){
+            $image=$_FILES["photo"]["name"];
+            $file_tmp=$_FILES["photo"]["tmp_name"];
+            $ext=pathinfo($image,PATHINFO_EXTENSION);
+            $request_data['photo'] = $request->file('photo')->storeAs('image/', 'image'.rand(10,100000).'.'.$ext);
+        }
+        if ($request->file('cv')){
+            $image=$_FILES["cv"]["name"];
+            $file_tmp=$_FILES["cv"]["tmp_name"];
+            $ext=pathinfo($image,PATHINFO_EXTENSION);
+            $request_data['cv'] = $request->file('cv')->storeAs('cv/', 'cv'.rand(10,100000).'.'.$ext);
+        }
+        $user = (new GeneralUserService)->updateGeneralUser($request_data, $id);
         return response()->json(['data' => $user, 'status' => Response::HTTP_OK, 'msg' => 'Data stored successfully']);
 
     }
